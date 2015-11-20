@@ -1,8 +1,14 @@
 package com.pucp;
 
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
+import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.sentiment.BuildBinarizedDataset;
+import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 import edu.stanford.nlp.sentiment.SentimentTraining;
+import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.util.CoreMap;
 
 import java.io.*;
 import java.util.*;
@@ -30,6 +36,7 @@ public class KagglerController {
         public Integer sentenceId;
         public String phrase;
         public Integer sentiment;
+        public Integer eval_sentiment = 0;
 
         public KagglerSentence(String line)
         {
@@ -39,6 +46,75 @@ public class KagglerController {
             this.phrase = datavalue[2];
             this.sentiment = Integer.parseInt(datavalue[3]);
         }
+        public String Toline()
+        {
+            return  this.sentenceId +","+  this.phraseId + "," + this.phrase +"," +this.sentiment + "," + this.eval_sentiment ;
+        }
+    }
+    private  int findSentiment(StanfordCoreNLP pipeline,  String line) {
+        int mainSentiment = 0;
+        if (line != null && line.length() > 0) {
+            int longest = 0;
+            Annotation annotation = pipeline.process(line);
+            for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
+                Tree tree = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
+                int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
+                String partText = sentence.toString();
+                if (partText.length() > longest) {
+                    mainSentiment = sentiment;
+                    longest = partText.length();
+                }
+            }
+        }
+        return mainSentiment;
+    }
+
+    public void EvaluateModel(String Model, String Input, String OutputFile)
+    {
+
+        StanfordCoreNLP pipeline;
+        Properties props = new Properties();
+        props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
+        if ( Model != null)
+        {
+            props.setProperty("sentiment.model", Model);
+        }
+        pipeline = new StanfordCoreNLP(props);
+        // Input
+        File dataFile = new File(Input);
+
+        try {
+
+            FileReader fr = new FileReader(dataFile);
+
+            BufferedReader bReader = new BufferedReader(fr);
+
+            File fout = new File(OutputFile);
+
+            FileOutputStream fos = new FileOutputStream(fout);
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+            String line;
+            // skip the first line.
+            bReader.readLine();
+
+            while ((line = bReader.readLine()) != null) {
+                KagglerSentence ksentence = new KagglerSentence(line);
+
+                ksentence.eval_sentiment = this.findSentiment(pipeline, ksentence.phrase);
+
+                bw.write(ksentence.Toline());
+                bw.newLine();
+            }
+            bReader.close();
+            bw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
