@@ -48,7 +48,7 @@ public class KagglerController {
         }
         public String Toline()
         {
-            return  this.sentenceId +","+  this.phraseId + "," + this.phrase +"," +this.sentiment + "," + this.eval_sentiment ;
+            return  this.sentenceId +"|"+  this.phraseId + "|" + this.phrase +"|" +this.sentiment + "|" + this.eval_sentiment ;
         }
     }
     private  int findSentiment(StanfordCoreNLP pipeline,  String line) {
