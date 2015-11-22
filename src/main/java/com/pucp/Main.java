@@ -8,12 +8,12 @@ public class Main {
 	// write your code here
         KagglerController controller = new KagglerController();
 
-        //controller.EvaluateModel("kaggler-dev.ser.gz", "kaggler_train2.tsv", "kaggler_train_eval2.tsv" );
+        controller.EvaluateModel("kaggler-dev.ser-kaggler_stanford_77.69.gz", "kaggler_train.tsv", "kaggler_train_eval_k_s.tsv" );
 
         //controller.EvaluateModel(null, "kaggler_train.tsv", "kaggler_train_eval.tsv" );
       //  controller.MakeMigration("UseComplexTrainDevStanford");
        // controller.MigrateToTree_Train();
-
+/*
         try{
            KagglerSentimentAnalyzer analyzer = new KagglerSentimentAnalyzer("kaggler-dev.ser-full.gz");
            analyzer.Evaluate("kaggler_test.tsv",  "kaggler_full_result.tsv");
@@ -22,7 +22,7 @@ public class Main {
         {
             ex.printStackTrace();
         }
-
+*/
         System.out.println("======================== task finish ===================");
 
 
