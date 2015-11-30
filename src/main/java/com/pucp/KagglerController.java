@@ -16,9 +16,9 @@ import java.util.*;
 
 public class KagglerController {
 
-    private String original_file = "kaggler_train.tsv";
+    public String original_file = "kaggler_train.tsv";
     private String train_file = "base_train.tsv";
-    private String binary_train_dataset__file = "binary_train_dataset__file.csv";
+    public String binary_train_dataset__file = "binary_train_dataset__file.csv";
     private String binary_dev_dataset_file = "binary_dev_dataset_file.csv";
     private String dev_file = "base_dev.tsv";
     private String test_file = "test.tsv";
@@ -48,7 +48,7 @@ public class KagglerController {
         }
         public String Toline()
         {
-            return  this.sentenceId +"|"+  this.phraseId + "|" + this.phrase +"|" +this.sentiment + "|" + this.eval_sentiment ;
+            return  this.phraseId + "\t" + this.sentenceId + "\t" +   this.phrase +"\t" +this.sentiment + "\t" + this.eval_sentiment ;
         }
     }
     private  int findSentiment(StanfordCoreNLP pipeline,  String line) {
@@ -95,6 +95,9 @@ public class KagglerController {
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
+            bw.write("phraseId" + "\t" + "sentenceId" + "\t" +   "phrase" +"\t" + "sentiment" + "\t" + "eval_sentiment");
+            bw.newLine();
+
             String line;
             // skip the first line.
             bReader.readLine();
@@ -131,6 +134,9 @@ public class KagglerController {
         }
 
     }
+
+
+
     private void UseComplexTrainDevStanford()
     {
         System.out.print("Processing. This will take about 30 mins or os...");
@@ -393,4 +399,5 @@ public class KagglerController {
         SentimentTraining.main(newargs);
         //:java -cp "*" -mx8g edu.stanford.nlp.sentiment.SentimentTraining -numHid 25 -trainPath manual.txt -devPath dev.txt -train -model model-dev.ser.gz
     }
+
 }

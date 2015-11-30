@@ -61,3 +61,4 @@ java -cp "*" -mx5g edu.stanford.nlp.sentiment.SentimentPipeline -sentimentModel 
 : rertain the model
 :http://stackoverflow.com/questions/22586658/how-to-train-the-stanford-nlp-sentiment-analysis-tool?rq=1
 :https://www.kaggle.com/c/sentiment-analysis-on-movie-reviews/forums/t/12304/stanford-nlp-training-is-not-converging/64298
+:video http://videolectures.net/deeplearning2015_socher_deep_nlp/
