@@ -28,8 +28,8 @@ public class Main {
 
 
 
-        KagglerController controller = new KagglerController();
-        controller.EvaluateModel("kaggler_v2_model.ser.gz", "./Model/kaggler_test_processed.tsv", "./Evals/kaggler_test_v2_model_eval.tsv" );
+        //KagglerController controller = new KagglerController();
+        //controller.EvaluateModel("kaggler_v2_model_stanford_kaggler.ser.gz", "./Model/kaggler_test_processed.tsv", "./Evals/kaggler_test_v2_stanford_kaggler_model_eval.tsv" );
 
 
 //        controller.MakeMigration();
@@ -42,16 +42,16 @@ public class Main {
         //controller.EvaluateModel(null, "kaggler_train.tsv", "kaggler_train_eval.tsv" );
       //  controller.MakeMigration("UseComplexTrainDevStanford");
        // controller.MigrateToTree_Train();
-/*
+
         try{
-           KagglerSentimentAnalyzer analyzer = new KagglerSentimentAnalyzer("kaggler_v2_model.ser.gz");
-           analyzer.Evaluate("kaggler_test.tsv",  "./KagglerResult/kaggler_test_v2_model.tsv");
+           KagglerSentimentAnalyzer analyzer = new KagglerSentimentAnalyzer("kaggler_v2_model_stanford_kaggler.ser.gz");
+           analyzer.Evaluate("kaggler_test.tsv",  "./KagglerResult/kaggler_test_v2_model_stanford_kaggler.tsv");
         }
         catch (IOException ex)
         {
             ex.printStackTrace();
         }
-*/
+
         System.out.println("======================== task finish ===================");
 
 
